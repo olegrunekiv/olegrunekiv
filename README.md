@@ -8,10 +8,11 @@
 
 </div>
 
-<p align="center">
-I build web apps end to end — from the Postgres schema and a Python or Bun&nbsp;/&nbsp;Elysia API<br>
-to the Vue or React interface on top. Soft spot for Three.js, smooth motion and calm, well-made UI.
-</p>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/about-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/about-light.svg">
+  <img alt="I build web apps end to end — from the Postgres schema and a Python or Bun / Elysia API to the Vue or React interface on top. Soft spot for Three.js, smooth motion and calm, well-made UI." src="assets/about-light.svg" width="100%">
+</picture>
 
 <br>
 

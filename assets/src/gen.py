@@ -2,7 +2,7 @@
 
 Usage (from the repo root, needs Pillow only for ink.py):
     python3 assets/src/ink.py koi.webp assets/src   # source image -> koi-white.png / koi-black.png
-    python3 assets/src/gen.py assets/src assets     # -> assets/{header,stack,footer}-*.svg
+    python3 assets/src/gen.py assets/src assets     # -> assets/{header,about,stack,footer}-*.svg
 """
 import base64
 import json
@@ -234,6 +234,69 @@ def footer(theme):
 """
 
 
+ABOUT = [
+    ("SCHEMA", "PostgreSQL", "modelled in Prisma"),
+    ("API", "Python", "or Bun + Elysia"),
+    ("INTERFACE", "Vue & React", "with Vite & Tailwind"),
+]
+
+
+def brush_line(x0, x1, yc, amp=4.0, waves=1.0, wmax=4.2, n=120):
+    """Tapered ink stroke along a gentle wave; returns (filled outline, centre line)."""
+    top, bot, mid = [], [], []
+    for i in range(n + 1):
+        t = i / n
+        x = x0 + (x1 - x0) * t
+        y = yc + amp * math.sin(2 * math.pi * waves * t) * math.sin(math.pi * t)
+        w = 0.5 + wmax * math.sin(math.pi * t) ** 0.8 * (1 - 0.55 * t)
+        top.append((x, y - w / 2))
+        bot.append((x, y + w / 2))
+        mid.append((x, y))
+    centre = "M" + " L".join(f"{f(x)} {f(y)}" for x, y in mid)
+    return poly(top + list(reversed(bot))), centre
+
+
+def about(theme):
+    """'End to end' strip: schema -> API -> interface, with a red dot running along the ink."""
+    c = THEMES[theme]
+    W, H = 1200, 330
+    cols = [200, 600, 1000]
+    half = [118, 92, 118]  # rough half-width of each value, keeps the strokes clear of the text
+    y_label, y_value, y_sub = 128, 182, 214
+    parts = []
+    for (label, value, sub), x, i in zip(ABOUT, cols, range(3)):
+        parts.append(
+            f'<text x="{x}" y="{y_label}" text-anchor="middle" font-family="{MONO}" font-size="14" letter-spacing="4" fill="{c["muted"]}">'
+            f'<tspan fill="{c["seal"]}">0{i + 1}</tspan> — {label}</text>'
+            f'<text x="{x}" y="{y_value}" text-anchor="middle" font-family="{SERIF}" font-size="40" fill="{c["text"]}">{value.replace("&", "&amp;")}</text>'
+            f'<text x="{x}" y="{y_sub}" text-anchor="middle" font-family="{SERIF}" font-style="italic" font-size="19" fill="{c["muted"]}">{sub.replace("&", "&amp;")}</text>'
+        )
+    strokes, route = [], []
+    for k in range(2):
+        a, b = cols[k] + half[k] + 22, cols[k + 1] - half[k + 1] - 22
+        d, centre = brush_line(a, b, y_value - 13, amp=5, waves=1 + 0.5 * k)
+        strokes.append(f'<path d="{d}" fill="{c["ink"]}" fill-opacity=".8"/>')
+        route.append(centre)
+    route = " ".join(route)
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="I build web apps end to end: PostgreSQL schema, Python or Bun + Elysia API, Vue and React interface.">
+<defs>
+  <filter id="rough" x="-5%" y="-60%" width="110%" height="220%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" seed="6"/>
+    <feDisplacementMap in="SourceGraphic" scale="2.2"/>
+  </filter>
+</defs>
+<text x="{W / 2}" y="48" text-anchor="middle" font-family="{SERIF}" font-size="30" fill="{c['text']}">I build web apps <tspan font-style="italic">end to end</tspan></text>
+<g filter="url(#rough)">{"".join(strokes)}</g>
+<circle r="4.5" fill="{c['seal']}" opacity="0">
+  <animateMotion path="{route}" dur="4.2s" repeatCount="indefinite" keyPoints="0;1;1" keyTimes="0;.72;1" calcMode="linear"/>
+  <animate attributeName="opacity" values="0;1;1;0;0" keyTimes="0;.04;.68;.72;1" dur="4.2s" repeatCount="indefinite"/>
+</circle>
+{"".join(parts)}
+<text x="{W / 2}" y="292" text-anchor="middle" font-family="{SERIF}" font-style="italic" font-size="23" fill="{c['muted']}">soft spot for Three.js, smooth motion and calm, well-made UI.</text>
+</svg>
+"""
+
+
 STACK = [
     ("FRONTEND", [("typescript", "TypeScript"), ("javascript", "JavaScript"), ("vuedotjs", "Vue"), ("react", "React"),
                   ("astro", "Astro"), ("tailwindcss", "Tailwind"), ("threedotjs", "Three.js"), ("gsap", "GSAP"), ("vite", "Vite")]),
@@ -272,6 +335,7 @@ def stack(theme):
 
 for theme in THEMES:
     (OUT / f"header-{theme}.svg").write_text(header(theme))
+    (OUT / f"about-{theme}.svg").write_text(about(theme))
     (OUT / f"stack-{theme}.svg").write_text(stack(theme))
     (OUT / f"footer-{theme}.svg").write_text(footer(theme))
-    print(theme, *(f"{n}:{(OUT / f'{n}-{theme}.svg').stat().st_size}" for n in ("header", "stack", "footer")))
+    print(theme, *(f"{n}:{(OUT / f'{n}-{theme}.svg').stat().st_size}" for n in ("header", "about", "stack", "footer")))
