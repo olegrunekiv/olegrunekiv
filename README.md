@@ -9,7 +9,7 @@
 </div>
 
 <p align="center">
-I build web apps end to end — from the Postgres schema and the Bun&nbsp;/&nbsp;Elysia API<br>
+I build web apps end to end — from the Postgres schema and a Python or Bun&nbsp;/&nbsp;Elysia API<br>
 to the Vue or React interface on top. Soft spot for Three.js, smooth motion and calm, well-made UI.
 </p>
 
@@ -20,7 +20,7 @@ to the Vue or React interface on top. Soft spot for Three.js, smooth motion and 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/stack-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/stack-light.svg">
-  <img alt="Stack: TypeScript, JavaScript, Vue, React, Astro, Tailwind, Three.js, GSAP, Vite · Bun, Prisma, PostgreSQL, GraphQL, Docker, MQTT · Flutter, Dart, Java, Git" src="assets/stack-light.svg" width="100%">
+  <img alt="Stack: TypeScript, JavaScript, Vue, React, Astro, Tailwind, Three.js, GSAP, Vite · Python, Bun, Prisma, PostgreSQL, GraphQL, Docker, MQTT · Flutter, Dart, Java, Git" src="assets/stack-light.svg" width="100%">
 </picture>
 
 </div>

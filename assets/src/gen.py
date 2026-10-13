@@ -237,7 +237,7 @@ def footer(theme):
 STACK = [
     ("FRONTEND", [("typescript", "TypeScript"), ("javascript", "JavaScript"), ("vuedotjs", "Vue"), ("react", "React"),
                   ("astro", "Astro"), ("tailwindcss", "Tailwind"), ("threedotjs", "Three.js"), ("gsap", "GSAP"), ("vite", "Vite")]),
-    ("BACKEND", [("bun", "Bun"), ("prisma", "Prisma"), ("postgresql", "PostgreSQL"), ("graphql", "GraphQL"),
+    ("BACKEND", [("python", "Python"), ("bun", "Bun"), ("prisma", "Prisma"), ("postgresql", "PostgreSQL"), ("graphql", "GraphQL"),
                  ("docker", "Docker"), ("mqtt", "MQTT")]),
     ("ALSO", [("flutter", "Flutter"), ("dart", "Dart"), ("openjdk", "Java"), ("git", "Git")]),
 ]
