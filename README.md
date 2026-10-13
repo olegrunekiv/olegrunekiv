@@ -3,36 +3,27 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/header-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="assets/header-light.svg">
-  <img alt="Oleg Rune — embedded · firmware · STM32" src="assets/header-light.svg" width="100%">
+  <img alt="Oleg Rune — fullstack developer" src="assets/header-light.svg" width="100%">
 </picture>
 
 </div>
 
+<p align="center">
+I build web apps end to end — from the Postgres schema and the Bun&nbsp;/&nbsp;Elysia API<br>
+to the Vue or React interface on top. Soft spot for Three.js, smooth motion and calm, well-made UI.
+</p>
+
 <br>
 
-```c
-/* oleg.c */
-#include "stm32.h"
+<div align="center">
 
-const engineer_t oleg = {
-    .name  = "Oleg Rune",
-    .focus = "embedded / firmware",
-    .stack = { "C", "C++", "STM32 HAL", "Arm Cortex-M" },
-    .motto = "quiet code for small machines",
-};
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/stack-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/stack-light.svg">
+  <img alt="Stack: TypeScript, JavaScript, Vue, React, Astro, Tailwind, Three.js, GSAP, Vite · Bun, Prisma, PostgreSQL, GraphQL, Docker, MQTT · Flutter, Dart, Java, Git" src="assets/stack-light.svg" width="100%">
+</picture>
 
-int main(void)
-{
-    HAL_Init();
-    SystemClock_Config();
-
-    while (1) {
-        read_datasheet();
-        write_firmware();
-        HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);  /* never gets old */
-    }
-}
-```
+</div>
 
 <!--
 <p align="center">

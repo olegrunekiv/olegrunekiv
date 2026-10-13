@@ -1,10 +1,11 @@
-"""Generate the ink-style profile header / footer SVGs (dark + light).
+"""Generate the ink-style profile header / stack / footer SVGs (dark + light).
 
 Usage (from the repo root, needs Pillow only for ink.py):
     python3 assets/src/ink.py koi.webp assets/src   # source image -> koi-white.png / koi-black.png
-    python3 assets/src/gen.py assets/src assets     # -> assets/header-*.svg, assets/footer-*.svg
+    python3 assets/src/gen.py assets/src assets     # -> assets/{header,stack,footer}-*.svg
 """
 import base64
+import json
 import math
 import random
 import sys
@@ -137,7 +138,7 @@ def header(theme):
 
     sx, sy, S = 490, 346, 52  # seal centre + size
     tx = 616
-    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Oleg Rune — embedded, firmware, STM32">
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Oleg Rune — fullstack developer">
 <defs>
   <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
     <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="2" seed="3"/>
@@ -185,7 +186,7 @@ def header(theme):
 </g>
 
 <g font-family="{MONO}" font-size="17" letter-spacing="5" fill="{c['muted']}">
-  <text x="{tx + 4}" y="134">EMBEDDED · FIRMWARE · STM32</text>
+  <text x="{tx + 4}" y="134">FULLSTACK DEVELOPER</text>
 </g>
 <g font-family="{SERIF}" font-size="96" letter-spacing="-1" fill="{c['text']}">
   <text x="{tx}" y="226">Oleg Rune</text>
@@ -194,7 +195,7 @@ def header(theme):
   <animate attributeName="width" values="0;0;56" keyTimes="0;.55;1" dur="2.2s" fill="freeze" calcMode="spline" keySplines="0 0 1 1;.2 .7 .3 1"/>
 </rect>
 <g font-family="{SERIF}" font-style="italic" font-size="29" fill="{c['muted']}">
-  <text x="{tx + 3}" y="314">quiet code for small machines.</text>
+  <text x="{tx + 3}" y="314">from schema to pixel.</text>
 </g>
 </svg>
 """
@@ -233,7 +234,44 @@ def footer(theme):
 """
 
 
+STACK = [
+    ("FRONTEND", [("typescript", "TypeScript"), ("javascript", "JavaScript"), ("vuedotjs", "Vue"), ("react", "React"),
+                  ("astro", "Astro"), ("tailwindcss", "Tailwind"), ("threedotjs", "Three.js"), ("gsap", "GSAP"), ("vite", "Vite")]),
+    ("BACKEND", [("bun", "Bun"), ("prisma", "Prisma"), ("postgresql", "PostgreSQL"), ("graphql", "GraphQL"),
+                 ("docker", "Docker"), ("mqtt", "MQTT")]),
+    ("ALSO", [("flutter", "Flutter"), ("dart", "Dart"), ("openjdk", "Java"), ("git", "Git")]),
+]
+
+
+def stack(theme):
+    """Tech stack as monochrome Simple Icons (CC0), one row per area."""
+    c = THEMES[theme]
+    icons = json.loads((BUILD / "icons.json").read_text())
+    W, H = 1200, 384
+    lx, ix, step, size, row_h, top = 72, 300, 100, 38, 124, 34
+    rows = []
+    for i, (label, items) in enumerate(STACK):
+        y = top + i * row_h
+        rows.append(f'<circle cx="{lx - 14}" cy="{y + size / 2 - 1}" r="3" fill="{c["seal"]}"/>')
+        rows.append(f'<text x="{lx}" y="{y + size / 2 + 5}" font-family="{MONO}" font-size="15" letter-spacing="5" fill="{c["muted"]}">{label}</text>')
+        for j, (slug, name) in enumerate(items):
+            cx = ix + j * step
+            rows.append(
+                f'<path transform="translate({cx - size / 2} {y}) scale({f(size / 24)})" d="{icons[slug]}" fill="{c["text"]}" fill-opacity=".92"/>'
+                f'<text x="{cx}" y="{y + size + 28}" text-anchor="middle" font-family="{MONO}" font-size="14" fill="{c["muted"]}">{name}</text>'
+            )
+        if i < len(STACK) - 1:
+            rows.append(f'<line x1="{lx - 14}" x2="{W - lx}" y1="{y + row_h - 20}" y2="{y + row_h - 20}" stroke="{c["ink"]}" stroke-opacity=".12"/>')
+    alt = "; ".join(f"{label.lower()}: " + ", ".join(n for _, n in items) for label, items in STACK)
+    body = "\n".join(rows)
+    return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{W}" height="{H}" viewBox="0 0 {W} {H}" role="img" aria-label="Stack — {alt}">
+{body}
+</svg>
+"""
+
+
 for theme in THEMES:
     (OUT / f"header-{theme}.svg").write_text(header(theme))
+    (OUT / f"stack-{theme}.svg").write_text(stack(theme))
     (OUT / f"footer-{theme}.svg").write_text(footer(theme))
-    print(theme, (OUT / f"header-{theme}.svg").stat().st_size, (OUT / f"footer-{theme}.svg").stat().st_size)
+    print(theme, *(f"{n}:{(OUT / f'{n}-{theme}.svg').stat().st_size}" for n in ("header", "stack", "footer")))
