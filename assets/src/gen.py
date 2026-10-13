@@ -186,17 +186,14 @@ def header(theme):
 </g>
 
 <g font-family="{MONO}" font-size="17" letter-spacing="5" fill="{c['muted']}">
-  <text x="{tx + 4}" y="134">FULLSTACK DEVELOPER</text>
+  <text x="{tx + 4}" y="158">FULLSTACK DEVELOPER</text>
 </g>
 <g font-family="{SERIF}" font-size="96" letter-spacing="-1" fill="{c['text']}">
-  <text x="{tx}" y="226">Oleg Rune</text>
+  <text x="{tx}" y="250">Oleg Rune</text>
 </g>
-<rect x="{tx + 4}" y="259" width="56" height="2.5" fill="{c['seal']}">
+<rect x="{tx + 4}" y="283" width="56" height="2.5" fill="{c['seal']}">
   <animate attributeName="width" values="0;0;56" keyTimes="0;.55;1" dur="2.2s" fill="freeze" calcMode="spline" keySplines="0 0 1 1;.2 .7 .3 1"/>
 </rect>
-<g font-family="{SERIF}" font-style="italic" font-size="29" fill="{c['muted']}">
-  <text x="{tx + 3}" y="314">from schema to pixel.</text>
-</g>
 </svg>
 """
 

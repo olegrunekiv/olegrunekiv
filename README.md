@@ -44,6 +44,6 @@
   <img alt="" src="assets/footer-light.svg" width="100%">
 </picture>
 
-<sub>鯉の滝登り — the carp that climbs the waterfall becomes a dragon</sub>
+<sub>侍にテストなし、本番のみ — a samurai has no tests, only prod</sub>
 
 </div>

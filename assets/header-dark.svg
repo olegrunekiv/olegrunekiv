@@ -46,15 +46,12 @@
 </g>
 
 <g font-family="ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace" font-size="17" letter-spacing="5" fill="#8b949e">
-  <text x="620" y="134">FULLSTACK DEVELOPER</text>
+  <text x="620" y="158">FULLSTACK DEVELOPER</text>
 </g>
 <g font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,'Noto Serif',serif" font-size="96" letter-spacing="-1" fill="#e6edf3">
-  <text x="616" y="226">Oleg Rune</text>
+  <text x="616" y="250">Oleg Rune</text>
 </g>
-<rect x="620" y="259" width="56" height="2.5" fill="#e2483b">
+<rect x="620" y="283" width="56" height="2.5" fill="#e2483b">
   <animate attributeName="width" values="0;0;56" keyTimes="0;.55;1" dur="2.2s" fill="freeze" calcMode="spline" keySplines="0 0 1 1;.2 .7 .3 1"/>
 </rect>
-<g font-family="'Iowan Old Style','Palatino Linotype',Palatino,'Book Antiqua',Georgia,'Noto Serif',serif" font-style="italic" font-size="29" fill="#8b949e">
-  <text x="619" y="314">from schema to pixel.</text>
-</g>
 </svg>
